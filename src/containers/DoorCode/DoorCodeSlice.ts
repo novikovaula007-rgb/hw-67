@@ -39,5 +39,6 @@ export const doorCodeSlice = createSlice({
         }
     }
 });
+
 export const {addNumber, deleteNumber, submitPassword} = doorCodeSlice.actions;
-export default doorCodeSlice.reducer;
+export const doorCodeReducer = doorCodeSlice.reducer;
