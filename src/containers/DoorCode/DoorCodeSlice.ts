@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 
 interface DoorCodeState {
     currentPassword: string,
@@ -15,7 +15,29 @@ const initialState: DoorCodeState = {
 export const doorCodeSlice = createSlice({
     name: 'doorCode',
     initialState,
-    reducers: {}
-});
+    reducers: {
+        addNumber: (state, action: PayloadAction<string>) => {
+            if (state.status != 'initial') {
+                state.status = 'initial';
+            }
+            if (state.currentPassword.length < 4) {
+                state.currentPassword += action.payload;
+            }
+        },
 
+        deleteNumber: (state) => {
+            state.status = 'initial';
+            state.currentPassword = state.currentPassword.slice(0, -1);
+        },
+
+        submitPassword: (state) => {
+            if (state.currentPassword === state.correctPassword) {
+                state.status = 'granted';
+            } else {
+                state.status = 'denied';
+            }
+        }
+    }
+});
+export const {addNumber, deleteNumber, submitPassword} = doorCodeSlice.actions;
 export default doorCodeSlice.reducer;
